@@ -1,0 +1,98 @@
+---
+title: 'Assignment 2'
+subtitle: "Data Science for Biomedical Informatics (BMIN503/EPID600)"
+format: 
+  html:
+    theme: lumen
+editor: visual
+embed-resources: true
+---
+
+------------------------------------------------------------------------
+
+### Instructions
+
+-   Download the qmd version of this file
+-   Complete the questions below in RStudio using the qmd file as a template
+-   Replace the sample text after each question with your answers.
+-   Save the qmd document as Assignment2\_*YOUR-LAST-NAME*.qmd
+-   Render your file to create an HTML document
+-   Turn in completed Assignment2\_*YOUR-LAST-NAME*.html file in Canvas under Assignments -\> Assignment 2
+-   Your assignment **must** be in html format or it will not be graded
+-   Grades will be assigned according to point scheme below and computed as a percentage of total possible points
+-   Lateness policy: If an urgent and unforeseen circumstance comes up and you need an extension to turn in an assignment, please contact Blanca, Jakob, and Anastasia as soon as possible. Unless there is an arrangement in place, late assignments will be scored as follows:
+    -   25% of total score if 1 day late
+    -   50% of total score if 2 days late
+    -   75% of total score if 3 days late
+    -   Assignment will not be graded if 4 or more days late
+-   DUE DATE: 9/20/24 11:59pm
+
+### GitHub Basics
+
+1.  Provide the link to your Final Project repository in your GitHub account. *(2 points)*
+
+### R Basics
+
+2.  Create a matrix called `M` containing the following columns (in this order) using the `cbind()` function as needed:
+
+    -   Column 1: Contain multiples of ten in the range \[5, 205\]
+    -   Column 2: Integers in the range \[0, 20\]
+    -   Column 3: Entries of column 1 times those of column 2 on a row-by-row basis
+
+    Show the contents of `M` by typing its name on the last line. *(2 points)*
+
+> Replace this text with a chunk of R code that shows how you make this matrix.
+
+3.  Using `sapply` and a function, create a vector called `my_vector` where each entry is a logical (i.e., `TRUE` or `FALSE`) according to whether the corresponding entry of the 3rd column of `M` is less than 1000. That is, when the row entry of column 3 is less than 1000, the row entry of column 4 should be `TRUE`. Show the contents of `my_vector`. Expand `M` to include this vector as its fourth column. Show the contents of `M` again. How does column 4 differ from `my_vector`? Why did that change happen?*(2 points)*
+
+> Replace this text with a chunk of R code to answer the question, and then provide a short sentence explanation as text below the chunk.
+
+4.  Create a data frame called `my.data` based on the matrix `M` (i.e., convert `M` to a data frame). Give the columns the names "First", "Index", "Products", and "LessThan1000" in that order. Add a fifth column to `my.data` called "LT1000" that is equal to `my_vector`. Show the contents of `my.data`*.* Why was the inclusion of `my_vector` as a column different from its inclusion in `M`?*(2 points)*
+
+> Replace this text with a chunk of R code to answer the question.
+
+5.  Write a *for loop* to create a **list** of length 20 called `script_names` where each entry `i` contains a vector, and where each vector has as its first entry a string called "script\_`i`.R" in which `i` takes on the numbers 1-20 and its second entry is the current date in the format month.day.year (e.g., 9.6.2024). That is, the first entry of ``` script``_names ``` would be something like c("script_1.R", "9.6.2024"). Show the contents of the 10th entry of `script_names` as part of your answer. *(2 points)*
+
+> Replace this text with a chunk of R code to answer the question.
+
+6.  Write a function called `my.test` that given variables `x`, `y`, `z` and returns:
+
+    -   The sum of `x` and `y` if `x` is greater than or equal to 100
+    -   The product of `y` and `z` if `x` is less than 100 and `y` is greater than 50
+    -   `z` if `x` is less than 100 and `y` is less than or equal to 50 Account for the fact that a user has to provide positive numbers for `x` and `y` by having a condition that displays a message with a warning when x and/or y are not positive numbers. *(2 points)*
+
+> Replace this text with a chunk of R code to answer the question. Use the outline of the function below to answer.\
+
+`my.test <- function (x, y, z) { [your code] }`
+
+> Show output of the following commands:
+
+```{r}
+#| eval: FALSE
+
+my.test(60, 10, 40)
+my.test(200, 10, 40)
+my.test(60, 100, 40)
+my.test(200, 100, 40)
+my.test(-1, 3, 40)
+my.test(1, -3, 40)
+my.test(1, 3, -40)
+```
+
+### R Data Manipulation
+
+7.  There is a CSV file containing a subset of the 2007-2008 NHANES data [here](https://github.com/bcbg-bio/BMIN5030/blob/master/DataFiles/NHANES_2007to2008.csv) with a corresponding [data dictionary](https://github.com/bcbg-bio/BMIN5030/blob/master/DataFiles/NHANES_2007to2008_DataDictionary.md). Read in the *raw* data file. *(2 points)*
+
+> Replace this text with a chunk of R code that loads the dataset
+
+Answer the following questions by inserting a chunk of R code below each bullet to provide the answer, with a very brief explanation inserted as text below the code as needed. *(10 points)*
+
+-   How many variables are in the dataset and what are their names?
+
+-   How many participants were ever told they had asthma?
+
+-   How many children were part of the study (with children defined as age less than 18 years)?
+
+-   How many non-missing values were there for each variable?
+
+-   Create a new annual household income variable called `income` that is split into levels as follows: 1 = less than \$20,000, 2 = greater than \$20,000, all else missing. Show a summary of the counts of each level of `income`.
