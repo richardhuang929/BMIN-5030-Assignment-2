@@ -31,6 +31,8 @@ embed-resources: true
 
 1.  Provide the link to your Final Project repository in your GitHub account. *(2 points)*
 
+    [richardhuang929/BMIN-5030-Assignment-2](https://github.com/richardhuang929/BMIN-5030-Assignment-2)
+
 ### R Basics
 
 2.  Create a matrix called `M` containing the following columns (in this order) using the `cbind()` function as needed:
@@ -41,19 +43,51 @@ embed-resources: true
 
     Show the contents of `M` by typing its name on the last line. *(2 points)*
 
-> Replace this text with a chunk of R code that shows how you make this matrix.
+```{r}
+c1 <- seq(from = 10, to = 200, by = 10)
+c2 <- seq(from = 0, to = 20, by = 1)
+c3 <- c1 * c2
+
+M <- cbind(c1, c2, c3) 
+M
+```
 
 3.  Using `sapply` and a function, create a vector called `my_vector` where each entry is a logical (i.e., `TRUE` or `FALSE`) according to whether the corresponding entry of the 3rd column of `M` is less than 1000. That is, when the row entry of column 3 is less than 1000, the row entry of column 4 should be `TRUE`. Show the contents of `my_vector`. Expand `M` to include this vector as its fourth column. Show the contents of `M` again. How does column 4 differ from `my_vector`? Why did that change happen?*(2 points)*
 
-> Replace this text with a chunk of R code to answer the question, and then provide a short sentence explanation as text below the chunk.
+    ```{r}
+    my_vector <- sapply(M[, 3], function(x) x < 1000)
+    my_vector
+    M <- cbind(M, my_vector)
+    M
+
+    ##Column 4 in matrix M is numeric, whereas my_vector is logical. Because R matrix can only include one data type, it coerced logicals into numeric automatically. 
+    ```
+
+> 
 
 4.  Create a data frame called `my.data` based on the matrix `M` (i.e., convert `M` to a data frame). Give the columns the names "First", "Index", "Products", and "LessThan1000" in that order. Add a fifth column to `my.data` called "LT1000" that is equal to `my_vector`. Show the contents of `my.data`*.* Why was the inclusion of `my_vector` as a column different from its inclusion in `M`?*(2 points)*
 
-> Replace this text with a chunk of R code to answer the question.
+    ```{r}
+    my.data <- as.data.frame(M)
+    colnames(my.data) <- c("First", "Index", "Products", "LessThan1000")
+    my.data$LT1000 <- my_vector
+    my.data
+
+    ##Because when I added my_vector as a column to the matrix, R coerced everything to the same type, which is the numeric, so the logical values became 1 and 0. However, a data frame could be more flexible, and each column can have its own data type. So when adding my_vector to my.data, it stays as a logical column.
+    ```
 
 5.  Write a *for loop* to create a **list** of length 20 called `script_names` where each entry `i` contains a vector, and where each vector has as its first entry a string called "script\_`i`.R" in which `i` takes on the numbers 1-20 and its second entry is the current date in the format month.day.year (e.g., 9.6.2024). That is, the first entry of ``` script``_names ``` would be something like c("script_1.R", "9.6.2024"). Show the contents of the 10th entry of `script_names` as part of your answer. *(2 points)*
 
-> Replace this text with a chunk of R code to answer the question.
+    ```{r}
+    script_name <- vector("list", 20)
+    today <- format(Sys.Date(), "%m.%d.%Y")
+
+    for (i in 1:20) {
+      script_name[[i]] <- c(paste0("script_", i, ".R"), today)
+    }
+
+    script_name[[10]]
+    ```
 
 6.  Write a function called `my.test` that given variables `x`, `y`, `z` and returns:
 
@@ -61,7 +95,23 @@ embed-resources: true
     -   The product of `y` and `z` if `x` is less than 100 and `y` is greater than 50
     -   `z` if `x` is less than 100 and `y` is less than or equal to 50 Account for the fact that a user has to provide positive numbers for `x` and `y` by having a condition that displays a message with a warning when x and/or y are not positive numbers. *(2 points)*
 
-> Replace this text with a chunk of R code to answer the question. Use the outline of the function below to answer.\
+    ```{r}
+    my.test <- function(x, y, z) {
+      if (x <= 0 | y <= 0) {
+        warning("x and y must be greater than 0")
+        return(NA)
+      }
+      
+      if (x >= 100) {
+        return(x + y)
+      } else if (x < 100 & y > 50) {
+        return(y * z)
+      } else if (x < 100 & y <= 50) {
+        return(z)
+      }
+    }
+
+    ```
 
 `my.test <- function (x, y, z) { [your code] }`
 
@@ -83,16 +133,55 @@ my.test(1, 3, -40)
 
 7.  There is a CSV file containing a subset of the 2007-2008 NHANES data [here](https://github.com/bcbg-bio/BMIN5030/blob/master/DataFiles/NHANES_2007to2008.csv) with a corresponding [data dictionary](https://github.com/bcbg-bio/BMIN5030/blob/master/DataFiles/NHANES_2007to2008_DataDictionary.md). Read in the *raw* data file. *(2 points)*
 
-> Replace this text with a chunk of R code that loads the dataset
+    ```{r}
+    df <- read.csv("C:/Users/Richard/Downloads/NHANES_2007to2008.csv")
+    ```
 
 Answer the following questions by inserting a chunk of R code below each bullet to provide the answer, with a very brief explanation inserted as text below the code as needed. *(10 points)*
 
 -   How many variables are in the dataset and what are their names?
 
+    ```{r}
+    n_vars <- ncol(df)
+    var_names <- names(df)
+    n_vars
+    var_names
+
+    ##There are 11 variables and 1 ID column.
+    ```
+
 -   How many participants were ever told they had asthma?
+
+    ```{r}
+    asthma <- sum(df$MCQ010 == 1, na.rm = TRUE)
+    asthma
+    ```
 
 -   How many children were part of the study (with children defined as age less than 18 years)?
 
+```{r}
+n_children <- sum(!is.na(df$RIDAGEYR) & df$RIDAGEYR < 18)
+n_children
+
+```
+
+-   
+
 -   How many non-missing values were there for each variable?
 
+    ```{r}
+    non_missing_each_var <- colSums(!is.na(df))
+    non_missing_each_var
+
+    ```
+
 -   Create a new annual household income variable called `income` that is split into levels as follows: 1 = less than \$20,000, 2 = greater than \$20,000, all else missing. Show a summary of the counts of each level of `income`.
+
+    ```{r}
+    df$income <- NA_integer_
+
+    df$income[df$INDHHIN2 %in% c(1, 2, 3, 4, 13)] <- 1L
+    df$income[df$INDHHIN2 %in% c(5, 6, 7, 8, 9, 10, 12, 14, 15)] <- 2L
+
+    table(df$income, useNA = "ifany")
+    ```
